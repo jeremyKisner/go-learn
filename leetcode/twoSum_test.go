@@ -12,24 +12,29 @@ func TestTwoSum(t *testing.T) {
 		want   []int
 	}{
 		{
-			[]int{2, 7, 11, 15},
-			9,
-			[]int{0, 1},
+			input:  []int{2, 7, 11, 15},
+			target: 9,
+			want:   []int{0, 1},
 		},
 		{
-			[]int{3, 2, 4},
-			6,
-			[]int{1, 2},
+			input:  []int{3, 2, 4},
+			target: 6,
+			want:   []int{1, 2},
 		},
 		{
-			[]int{3, 3},
-			6,
-			[]int{0, 1},
+			input:  []int{3, 3},
+			target: 6,
+			want:   []int{0, 1},
 		},
 		{
-			[]int{0, 4, 3, 0},
-			0,
-			[]int{0, 3},
+			input:  []int{0, 4, 3, 0},
+			target: 0,
+			want:   []int{0, 3},
+		},
+		{
+			input:  []int{-10, -1, -18, -19},
+			target: -19,
+			want:   []int{1, 2},
 		},
 	}
 	for _, tt := range tests {
