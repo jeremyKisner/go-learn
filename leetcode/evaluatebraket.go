@@ -1,37 +1,38 @@
 package leetcode
 
 import (
-	"strings"
+	"fmt"
 )
-
-type TokenManager struct {
-	startPos int
-	endPose  int
-}
 
 func evaluate(s string, knowledge [][]string) string {
 	result := ""
-	separators := "()"
-
-	// Split the string using the custom separator
-	substrings := strings.FieldsFunc(s, func(r rune) bool {
-		return strings.ContainsRune(separators, r)
-	})
-	for i := 0; i < len(substrings); i++ {
-		eval := substrings[i]
-		if eval == "" {
+	start := false
+	startPos := 0
+	for i, tok := range s {
+		token := string(tok)
+		if token == "(" { // Use single quotes for runes
+			fmt.Println("i ", i)
+			start = true
+			startPos = i + 1
 			continue
 		}
-		isFound := false
-		for j := 0; j < len(knowledge); j++ {
-			if knowledge[j][0] == eval {
-				result += knowledge[j][1]
-				isFound = true
-				break
+		if token == ")" {
+			start = false
+			curSubStr := s[startPos:i] // Use i instead of i-1
+			isFound := false
+			for j := 0; j < len(knowledge); j++ {
+				if knowledge[j][0] == curSubStr {
+					result += knowledge[j][1]
+					isFound = true
+					break
+				}
 			}
-		}
-		if !isFound {
-			result += eval
+			if !isFound {
+				result += "?"
+			}
+			continue
+		} else if !start {
+			result += string(token)
 		}
 	}
 	return result
