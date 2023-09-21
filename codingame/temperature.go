@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -26,22 +27,44 @@ func main() {
 	scanner.Scan()
 	inputs = strings.Split(scanner.Text(), " ")
 
-	result := GetLowestTemperature(n, inputs)
+	result := GetClosestTemperatureToZero(n, inputs)
 
-	fmt.Println("result", result)
+	fmt.Println("result: ", result)
 }
 
-func GetLowestTemperature(n int, inputs []string) string {
-	var lowestTemp int64
+func GetClosestTemperatureToZero(n int, inputs []string) string {
+	var belowZero int64
+	var aboveZero int64
 
 	for i := 0; i < n; i++ {
 		// t: a temperature expressed as an integer ranging from -273 to 5526
 		t, _ := strconv.ParseInt(inputs[i], 10, 32)
-		if lowestTemp == 0 {
-			lowestTemp = t
-		} else if t < lowestTemp {
-			// TODO
+		if t > 0 {
+			if aboveZero == 0 {
+				aboveZero = t
+			} else if t < aboveZero {
+				aboveZero = t
+			}
+		} else if t < 0 {
+			if belowZero == 0 {
+				belowZero = t
+			} else if t > belowZero {
+				belowZero = t
+			}
 		}
 	}
-	return strconv.FormatInt(lowestTemp, 10)
+
+	if aboveZero == 0 {
+		return strconv.FormatInt(belowZero, 10)
+	}
+
+	if belowZero == 0 {
+		return strconv.FormatInt(aboveZero, 10)
+	}
+
+	if math.Abs(float64(belowZero)) < float64(aboveZero) && aboveZero != 0 {
+		return strconv.FormatInt(belowZero, 10)
+	}
+
+	return strconv.FormatInt(aboveZero, 10)
 }
