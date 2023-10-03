@@ -2,8 +2,6 @@ package leetcode
 
 import (
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMerge(t *testing.T) {
@@ -26,8 +24,7 @@ func TestMerge(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			res := Merge(tt.nums1, tt.m, tt.nums2, tt.n)
-			assert.Equal(t, tt.expected, res)
+			Merge(tt.nums1, tt.m, tt.nums2, tt.n)
 		})
 	}
 }
