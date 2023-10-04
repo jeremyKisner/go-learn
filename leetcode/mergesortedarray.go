@@ -8,15 +8,15 @@
 
 package leetcode
 
-import "fmt"
-
-func Merge(nums1 []int, m int, nums2 []int, n int) {
-	var first_half []int
-	first_half = nums1[:m]
-	fmt.Println("first_half ", first_half)
-	for i := 0; i < n; i++ {
-		if nums2[i] < first_half[i] {
-			fmt.Println(nums2[i])
+func Merge(nums1 []int, m int, nums2 []int, n int) []int {
+	for n != 0 {
+		if m != 0 && nums1[m-1] > nums2[n-1] {
+			nums1[m+n-1] = nums1[m-1]
+			m--
+		} else {
+			nums1[m+n-1] = nums2[n-1]
+			n--
 		}
 	}
+	return nums1
 }
