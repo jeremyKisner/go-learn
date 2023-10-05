@@ -7,13 +7,12 @@ func BreakingRecords(scores []int32) []int32 {
 	var minimum int32
 	var maximum int32
 
-	for i := 0; i < len(scores); i++ {
+	if len(scores) > 1 {
+		minimum = scores[0]
+		maximum = scores[0]
+	}
+	for i := 1; i < len(scores); i++ {
 		newScore := scores[i]
-		if minimum == 0 && maximum == 0 {
-			minimum = newScore
-			maximum = newScore
-			continue
-		}
 
 		if newScore > maximum {
 			maximum = newScore

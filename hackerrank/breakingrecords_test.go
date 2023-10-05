@@ -21,6 +21,11 @@ func TestBreakingRecords(t *testing.T) {
 			scores: []int32{3, 4, 21, 36, 10, 28, 35, 5, 24, 42},
 			want:   []int32{4, 0},
 		},
+		{
+			name:   "test 3",
+			scores: []int32{0, 9, 3, 10, 2, 20},
+			want:   []int32{3, 0},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
