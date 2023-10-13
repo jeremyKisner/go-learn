@@ -1,5 +1,7 @@
 package hackerrank
 
+import "fmt"
+
 /*
  * Complete the 'birthday' function below.
  *
@@ -10,7 +12,26 @@ package hackerrank
  *  3. INTEGER m
  */
 
-func Birthday(s []int32, d int32, m int32) int32 {
+func Birthday(input []int32, maxTotal int32, numOfSquares int32) int32 {
 	var res int32
+
+	for i := 0; i < len(input); i++ {
+		temp := input[i]
+		fmt.Println(temp)
+		var count int
+		var curSum int
+		var curNums []int32
+		for j := int(temp); j < len(input); j++ {
+			if count < int(numOfSquares) {
+				newSum := curSum + int(input[j])
+				if newSum == int(numOfSquares) {
+					curNums = append(curNums, input[j])
+				}
+			} else {
+				break
+			}
+			count++
+		}
+	}
 	return res
 }

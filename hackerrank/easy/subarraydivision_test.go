@@ -1,25 +1,31 @@
 package hackerrank
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestBirthday(t *testing.T) {
-	type args struct {
-		s []int32
-		d int32
-		m int32
-	}
 	tests := []struct {
-		name string
-		args args
-		want int32
+		name         string
+		input        []int32
+		maxTotal     int32
+		numOfSquares int32
+		expected     int32
 	}{
-		// TODO: Add test cases.
+		{
+			name:         "test 1",
+			input:        []int32{1, 2, 1, 3, 2},
+			maxTotal:     3,
+			numOfSquares: 2,
+			expected:     2,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Birthday(tt.args.s, tt.args.d, tt.args.m); got != tt.want {
-				t.Errorf("Birthday() = %v, want %v", got, tt.want)
-			}
+			b := Birthday(tt.input, tt.maxTotal, tt.numOfSquares)
+			assert.Equal(t, tt.expected, b)
 		})
 	}
 }
