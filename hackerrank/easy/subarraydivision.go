@@ -27,8 +27,7 @@ package hackerrank
 
 func Birthday(s []int32, d int32, m int32) int32 {
 	var res int32
-	var nums int32
-	var sum int32
+
 	// guard clause for a single item
 	if len(s) == 1 {
 		if s[0] == d && m == 1 {
@@ -36,24 +35,21 @@ func Birthday(s []int32, d int32, m int32) int32 {
 			return res
 		}
 	}
+
 	for i := 0; i < len(s); i++ {
-		sum += s[i]
-
-		if sum == d {
+		var sum int32
+		var nums int32
+		for j := i; j < len(s); j++ {
+			sum += s[j]
 			nums++
-			if nums == m {
+			if sum == d && nums == m {
 				res++
-				i--
+			} else if sum < d {
+				continue
+			} else {
+				break
 			}
-			nums = 0
-			sum = 0
-		} else if sum < d {
-			nums++
-		} else {
-			nums = 0
-			sum = 0
 		}
-
 	}
 	return res
 }
