@@ -21,6 +21,20 @@ func TestBirthday(t *testing.T) {
 			m:        2,
 			expected: 2,
 		},
+		{
+			name:     "test 2",
+			input:    []int32{1, 1, 1, 1, 1, 1},
+			d:        3,
+			m:        2,
+			expected: 0,
+		},
+		{
+			name:     "test 3",
+			input:    []int32{4},
+			d:        4,
+			m:        1,
+			expected: 1,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

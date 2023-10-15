@@ -29,6 +29,13 @@ func Birthday(s []int32, d int32, m int32) int32 {
 	var res int32
 	var nums int32
 	var sum int32
+	// guard clause for a single item
+	if len(s) == 1 {
+		if s[0] == d && m == 1 {
+			res++
+			return res
+		}
+	}
 	for i := 0; i < len(s); i++ {
 		sum += s[i]
 
