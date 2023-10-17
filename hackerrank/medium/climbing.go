@@ -18,13 +18,13 @@ import "fmt"
 */
 
 func ClimbingLeaderboard(ranked []int32, player []int32) []int32 {
-	res := GetRanking(player, ranked)
+	var res []int32
+	ranked = BuildLeaderBoard(player, ranked)
 	fmt.Println(res)
 	return res
 }
 
-func GetRanking(player []int32, ranked []int32) []int32 {
-	var rankings []int32
+func BuildLeaderBoard(player []int32, ranked []int32) []int32 {
 	for i := len(player) - 1; i >= 0; i-- {
 		start := 0
 		end := len(ranked) - 1
@@ -40,18 +40,30 @@ func GetRanking(player []int32, ranked []int32) []int32 {
 		} else {
 			mid := end / 2
 			midPlace := ranked[mid]
-			// firstBatch := ranked[mid:]
-			// secondBatch := ranked[:mid]
 			if playerScore == midPlace {
 				fmt.Println("playerscore equals midplace")
 				ranked = append(ranked[:mid], append([]int32{(playerScore)}, ranked[mid:]...)...)
 			} else if playerScore > midPlace {
 				fmt.Println("playerscore >= than midplace")
+				for j := mid; j >= 0; j-- {
+					temp := ranked[j]
+					if playerScore > temp {
+						ranked = append(ranked[:j], append([]int32{playerScore}, ranked[j:]...)...)
+						break
+					}
+				}
 			} else {
 				fmt.Println("playerscore less than midplace")
+				for j := mid; j < len(ranked); j++ {
+					temp := ranked[j]
+					if playerScore > temp {
+						ranked = append(ranked[:j], append([]int32{playerScore}, ranked[j:]...)...)
+						break
+					}
+				}
 			}
 		}
 	}
 	fmt.Println(ranked)
-	return rankings
+	return ranked
 }
