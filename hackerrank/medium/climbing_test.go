@@ -16,7 +16,7 @@ func TestClimbingLeaderboard(t *testing.T) {
 		{
 			name:     "test 1",
 			ranked:   []int32{100, 90, 90, 80},
-			player:   []int32{70, 80, 105},
+			player:   []int32{81, 99, 105},
 			expected: []int32{4, 3, 1},
 		},
 	}
