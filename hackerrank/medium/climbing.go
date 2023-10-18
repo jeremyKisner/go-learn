@@ -19,12 +19,15 @@ import "fmt"
 
 func ClimbingLeaderboard(ranked []int32, player []int32) []int32 {
 	var res []int32
-	ranked = BuildLeaderBoard(player, ranked)
+	ranked = BuildRanks(player, ranked)
 	fmt.Println(res)
+	leaderBoard := BuildLeaderBoard(ranked)
+	fmt.Println(leaderBoard)
+	res = ComparePlayerRanks(player, leaderBoard)
 	return res
 }
 
-func BuildLeaderBoard(player []int32, ranked []int32) []int32 {
+func BuildRanks(player []int32, ranked []int32) []int32 {
 	for i := len(player) - 1; i >= 0; i-- {
 		start := 0
 		end := len(ranked) - 1
@@ -36,7 +39,7 @@ func BuildLeaderBoard(player []int32, ranked []int32) []int32 {
 			ranked = append([]int32{playerScore}, ranked...)
 		} else if playerScore <= lastPlace {
 			fmt.Println("tough luck, do better next time!")
-			ranked = append(ranked, lastPlace)
+			ranked = append(ranked, playerScore)
 		} else {
 			mid := end / 2
 			midPlace := ranked[mid]
@@ -66,4 +69,34 @@ func BuildLeaderBoard(player []int32, ranked []int32) []int32 {
 	}
 	fmt.Println(ranked)
 	return ranked
+}
+
+func BuildLeaderBoard(leaderboard []int32) map[int32]int32 {
+	var lbScr int32
+	rankings := make(map[int32]int32)
+	rank := 0
+	if len(leaderboard) > 0 {
+		lbScr = leaderboard[0]
+		rank++
+		rankings[lbScr] = int32(rank)
+	}
+	for i := 0; i < len(leaderboard); i++ {
+		lbScr = leaderboard[i]
+		if _, exists := rankings[lbScr]; !exists {
+			rank++
+			rankings[lbScr] = int32(rank)
+		}
+	}
+	return rankings
+}
+
+func ComparePlayerRanks(player []int32, leaderboard map[int32]int32) []int32 {
+	var playerRanks []int32
+	for i := 0; i < len(player); i++ {
+		playerScore := player[i]
+		rank := leaderboard[playerScore]
+		playerRanks = append(playerRanks, rank)
+
+	}
+	return playerRanks
 }
