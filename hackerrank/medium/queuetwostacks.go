@@ -1,4 +1,4 @@
-package medium
+package hackerrank
 
 import (
 	"bufio"
