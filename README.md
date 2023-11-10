@@ -1,2 +1,2 @@
 # go-learn
-learning Go by example with coding challenges
+Go by example with coding challenges and learning paths
