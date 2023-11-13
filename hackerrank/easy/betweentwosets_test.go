@@ -19,6 +19,12 @@ func TestBetweenTwoSets(t *testing.T) {
 			b:        []int32{24, 36},
 			expected: 2,
 		},
+		{
+			name:     "test 2",
+			a:        []int32{3, 4},
+			b:        []int32{24, 48},
+			expected: 2,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
