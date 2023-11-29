@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func evaluate(s string, knowledge [][]string) string {
+func Evaluate(s string, knowledge [][]string) string {
 	result := ""
 	start := false
 	startPos := 0

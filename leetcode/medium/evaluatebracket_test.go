@@ -2,17 +2,19 @@ package leetcode
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func Test_evaluate(t *testing.T) {
+func Test_Evaluate(t *testing.T) {
 	type args struct {
 		s         string
 		knowledge [][]string
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name     string
+		args     args
+		expected string
 	}{
 		{
 			name: "test 1",
@@ -23,7 +25,7 @@ func Test_evaluate(t *testing.T) {
 					{"age", "two"},
 				},
 			},
-			want: "bobistwoyearsold",
+			expected: "bobistwoyearsold",
 		},
 		{
 			name: "test 2",
@@ -33,14 +35,12 @@ func Test_evaluate(t *testing.T) {
 					{"hi(name)"},
 				},
 			},
-			want: "hi?",
+			expected: "hi?",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := evaluate(tt.args.s, tt.args.knowledge); got != tt.want {
-				t.Errorf("evaluate() got %v, want %v", got, tt.want)
-			}
+			assert.Equal(t, tt.expected, Evaluate(tt.args.s, tt.args.knowledge))
 		})
 	}
 }
