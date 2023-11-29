@@ -19,6 +19,30 @@ func TestMergeAlternatively(t *testing.T) {
 			word2:    "pqr",
 			expected: "apbqcr",
 		},
+		{
+			name:     "test 2",
+			word1:    "abc",
+			word2:    "defg",
+			expected: "adbecfg",
+		},
+		{
+			name:     "test 3",
+			word1:    "",
+			word2:    "defg",
+			expected: "defg",
+		},
+		{
+			name:     "test 4",
+			word1:    "abc",
+			word2:    "",
+			expected: "abc",
+		},
+		{
+			name:     "test 5",
+			word1:    "abcd",
+			word2:    "pq",
+			expected: "apbqcd",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
