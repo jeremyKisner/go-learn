@@ -7,6 +7,15 @@ import (
 	"fmt"
 )
 
+type Container struct {
+	Components []Component `json:"components"`
+	Hash       string      `json:"hash"`
+}
+type Component struct {
+	Name          string        `json:"name"`
+	Identifcation Identifcation `json:"identification"`
+}
+
 type Identifcation struct {
 	ID   int    `json:"id"`
 	Hash string `json:"hash"`
@@ -28,23 +37,20 @@ func hashString(input string) string {
 	return hashedString
 }
 
-type Component struct {
-	Name          string        `json:"name"`
-	Identifcation Identifcation `json:"identification"`
-}
-
 func main() {
-	name := "foobar"
-	id := 1
-	comp := &Component{
-		Name: name,
+	var comps []Component
+	comp := Component{
+		Name: "foobar",
 		Identifcation: Identifcation{
-			ID:   id,
-			Hash: hashString(name + fmt.Sprint(id)),
+			ID:   1,
+			Hash: hashString("foobar" + fmt.Sprint(1)),
 		},
 	}
-	fmt.Println(comp)
-	res, err := json.Marshal(comp)
+	comps = append(comps, comp)
+	c := Container{
+		Components: comps,
+	}
+	res, err := json.Marshal(c)
 	if err != nil {
 		return
 	}
