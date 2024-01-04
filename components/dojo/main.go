@@ -23,8 +23,10 @@ func attack(item string) {
 }
 
 func main() {
-	ninja := "Jeremy"
-	go attack(ninja)
+	ninjas := []string{"Jeremy", "George", "Joe"}
+	for _, ninja := range ninjas {
+		go attack(ninja)
+	}
 	time.Sleep(1 * time.Second)
 	fmt.Println("total attempts: ", numOfAttempts)
 }
