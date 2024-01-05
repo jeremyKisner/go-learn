@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 var (
@@ -11,22 +10,36 @@ var (
 	lock          sync.Mutex
 )
 
+type Ninja struct {
+	Ordinal int
+	Name    string
+}
+
 func incrementAttempts() {
 	lock.Lock()
 	numOfAttempts++
 	lock.Unlock()
 }
 
-func attack(item string) {
+func attack(ninja Ninja, wg *sync.WaitGroup) {
 	incrementAttempts()
-	fmt.Println("attacking ", item)
+	fmt.Println("attacking", ninja)
+	wg.Done()
 }
 
 func main() {
 	ninjas := []string{"Jeremy", "George", "Joe"}
-	for _, ninja := range ninjas {
-		go attack(ninja)
+	var beeper sync.WaitGroup
+
+	for k, v := range ninjas {
+		beeper.Add(1)
+		n := Ninja{
+			Ordinal: k,
+			Name:    v,
+		}
+		go attack(n, &beeper)
 	}
-	time.Sleep(1 * time.Second)
+
+	beeper.Wait()
 	fmt.Println("total attempts: ", numOfAttempts)
 }
