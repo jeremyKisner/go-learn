@@ -19,13 +19,15 @@ func main() {
 	defer cancel()
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		fmt.Println("start polling")
-		Roll(ctx)
-	}()
+	go Start(ctx, &wg)
 	wg.Wait()
 	fmt.Println("polling complete")
+}
+
+func Start(ctx context.Context, wg *sync.WaitGroup) {
+	defer wg.Done()
+	fmt.Println("start polling")
+	Roll(ctx)
 }
 
 func Roll(ctx context.Context) {
