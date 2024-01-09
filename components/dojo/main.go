@@ -15,15 +15,18 @@ type Ninja struct {
 	Name    string
 }
 
-func incrementAttempts() {
+func incrementAttempts() int {
+	var curAttempt int
 	lock.Lock()
 	numOfAttempts++
+	curAttempt = numOfAttempts
 	lock.Unlock()
+	return curAttempt
 }
 
 func attack(ninja Ninja, wg *sync.WaitGroup) {
-	incrementAttempts()
-	fmt.Println("attacking", ninja)
+	attempt := incrementAttempts()
+	fmt.Println("attacking", ninja, attempt)
 	wg.Done()
 }
 
