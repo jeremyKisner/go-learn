@@ -25,17 +25,21 @@ func main() {
 		Roll(ctx)
 	}()
 	wg.Wait()
+	fmt.Println("polling complete")
 }
 
 func Roll(ctx context.Context) {
+	var totalRolls int
+	var lock sync.Mutex
 	for {
 		select {
 		case <-ctx.Done():
-			fmt.Println("polling process complete within the deadline")
 			return
 		default:
 			die, die2 := GetDie(), GetDie()
 			fmt.Println("rolled", die+die2)
+			IncrementRolls(&lock, &totalRolls)
+			fmt.Println("totalRolls", totalRolls)
 			time.Sleep(2 * time.Second)
 		}
 	}
@@ -46,4 +50,10 @@ func GetDie() int {
 	max := 6
 	randNum := rand.Intn(max-min+1) + min
 	return randNum
+}
+
+func IncrementRolls(lock *sync.Mutex, totalRolls *int) {
+	lock.Lock()
+	*totalRolls++
+	lock.Unlock()
 }
