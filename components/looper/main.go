@@ -21,13 +21,14 @@ func main() {
 	wg.Add(1)
 	go Start(ctx, &wg)
 	wg.Wait()
-	fmt.Println("polling complete")
+
 }
 
 func Start(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
-	fmt.Println("start polling")
+	fmt.Println("start rolling")
 	Roll(ctx)
+	fmt.Println("rolling complete")
 }
 
 func Roll(ctx context.Context) {
@@ -38,10 +39,19 @@ func Roll(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		default:
-			die, die2 := GetDie(), GetDie()
-			fmt.Println("rolled", die+die2)
+			pTotal := GetDie() + GetDie()
+			compTotal := GetDie() + GetDie()
+			msg := fmt.Sprintf("you rolled %d  -- comp rolled %d", pTotal, compTotal)
+			var res string
+			if pTotal > compTotal {
+				res = fmt.Sprintf("you win! ")
+			} else if pTotal == compTotal {
+				res = fmt.Sprintf("draw! ")
+			} else {
+				res = fmt.Sprintf("you lose! ")
+			}
 			IncrementRolls(&lock, &totalRolls)
-			fmt.Println("totalRolls", totalRolls)
+			fmt.Println("round", totalRolls, res, msg)
 			time.Sleep(2 * time.Second)
 		}
 	}
