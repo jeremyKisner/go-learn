@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"math/rand"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -21,7 +22,6 @@ func main() {
 	wg.Add(1)
 	go Start(ctx, &wg)
 	wg.Wait()
-
 }
 
 func Start(ctx context.Context, wg *sync.WaitGroup) {
@@ -33,10 +33,15 @@ func Start(ctx context.Context, wg *sync.WaitGroup) {
 
 func Roll(ctx context.Context) {
 	var totalRolls int
+	var wins int
+	var losses int
+	var draws int
 	var lock sync.Mutex
 	for {
 		select {
 		case <-ctx.Done():
+			fmt.Println(fmt.Sprintf("Total Rolls: %s | Wins: %s - Loses: %s - Draws: %s",
+				strconv.Itoa(totalRolls), strconv.Itoa(wins), strconv.Itoa(losses), strconv.Itoa(draws)))
 			return
 		default:
 			pTotal := GetDie() + GetDie()
@@ -45,12 +50,15 @@ func Roll(ctx context.Context) {
 			var res string
 			if pTotal > compTotal {
 				res = fmt.Sprintf("you win! ")
+				Increment(&lock, &wins)
 			} else if pTotal == compTotal {
 				res = fmt.Sprintf("draw! ")
+				Increment(&lock, &draws)
 			} else {
 				res = fmt.Sprintf("you lose! ")
+				Increment(&lock, &losses)
 			}
-			IncrementRolls(&lock, &totalRolls)
+			Increment(&lock, &totalRolls)
 			fmt.Println("round", totalRolls, res, msg)
 			time.Sleep(2 * time.Second)
 		}
@@ -64,8 +72,8 @@ func GetDie() int {
 	return randNum
 }
 
-func IncrementRolls(lock *sync.Mutex, totalRolls *int) {
+func Increment(lock *sync.Mutex, num *int) {
 	lock.Lock()
-	*totalRolls++
+	*num++
 	lock.Unlock()
 }
