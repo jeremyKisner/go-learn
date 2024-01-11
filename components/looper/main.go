@@ -20,28 +20,28 @@ func main() {
 	defer cancel()
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go Start(ctx, &wg)
+	go Roll(ctx, &wg)
 	wg.Wait()
+	fmt.Print("complete!")
 }
 
-func Start(ctx context.Context, wg *sync.WaitGroup) {
+type RollScoreBoard struct {
+	totalRolls int
+	wins       int
+	losses     int
+	draws      int
+	lock       sync.Mutex
+}
+
+func Roll(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Println("start rolling")
-	Roll(ctx)
-	fmt.Println("rolling complete")
-}
-
-func Roll(ctx context.Context) {
-	var totalRolls int
-	var wins int
-	var losses int
-	var draws int
-	var lock sync.Mutex
+	sb := RollScoreBoard{}
 	for {
 		select {
 		case <-ctx.Done():
-			fmt.Println(fmt.Sprintf("Total Rolls: %s | Wins: %s - Loses: %s - Draws: %s",
-				strconv.Itoa(totalRolls), strconv.Itoa(wins), strconv.Itoa(losses), strconv.Itoa(draws)))
+			fmt.Println(fmt.Sprintf("total tolls: %s | wins: %s - loses: %s - draws: %s",
+				strconv.Itoa(sb.totalRolls), strconv.Itoa(sb.wins), strconv.Itoa(sb.losses), strconv.Itoa(sb.draws)))
 			return
 		default:
 			pTotal := GetDie() + GetDie()
@@ -50,16 +50,16 @@ func Roll(ctx context.Context) {
 			var res string
 			if pTotal > compTotal {
 				res = fmt.Sprintf("you win! ")
-				Increment(&lock, &wins)
+				Increment(&sb.lock, &sb.wins)
 			} else if pTotal == compTotal {
 				res = fmt.Sprintf("draw! ")
-				Increment(&lock, &draws)
+				Increment(&sb.lock, &sb.draws)
 			} else {
 				res = fmt.Sprintf("you lose! ")
-				Increment(&lock, &losses)
+				Increment(&sb.lock, &sb.losses)
 			}
-			Increment(&lock, &totalRolls)
-			fmt.Println("round", totalRolls, res, msg)
+			Increment(&sb.lock, &sb.totalRolls)
+			fmt.Println("round", sb.totalRolls, res, msg)
 			time.Sleep(2 * time.Second)
 		}
 	}
