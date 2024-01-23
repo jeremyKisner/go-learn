@@ -1,5 +1,5 @@
 # go-learn
-Go by example. Learnings from coding challenges and learning paths.
+Go by example. Coding challenges and learning paths.
 
 # run tests
 ```
