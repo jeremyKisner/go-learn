@@ -17,6 +17,11 @@ func TestMigratoryBirds(t *testing.T) {
 			args:     []int32{1, 1, 2, 2, 3},
 			expected: 1,
 		},
+		{
+			name:     "test 2",
+			args:     []int32{1, 4, 4, 4, 5, 3},
+			expected: 4,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

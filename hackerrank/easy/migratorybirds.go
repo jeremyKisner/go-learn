@@ -8,7 +8,10 @@ func findMax(input map[int32]int32) int32 {
 			max = v
 			continue
 		}
-		if v > max && k < key {
+		if v > max {
+			key = k
+			max = v
+		} else if v == max && k < key {
 			key = k
 			max = v
 		}
