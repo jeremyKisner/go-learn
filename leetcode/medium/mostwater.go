@@ -1,22 +1,28 @@
 package leetcode
 
-import "fmt"
-
 func MaxArea(height []int) int {
-	var first, last int
-	for i := range height {
-		first = height[i]
-		for j := len(height) - i - 1; j > 0; j-- {
-			last = height[j]
-			fmt.Println(height[i], height[j])
-			if first == last {
-				if first == 1 {
-					return first
-				} else {
-					return (first - 1) * (last - 1)
-				}
-			}
+	firstPtr := 0
+	lastPtr := len(height) - 1
+	maxArea := 0
+	for firstPtr < lastPtr {
+		firstHeight := height[firstPtr]
+		lastHeight := height[lastPtr]
+		var area int
+		if lastHeight > firstHeight {
+			area = firstHeight * (lastPtr - firstPtr)
+		} else {
+			area = lastHeight * (lastPtr - firstPtr)
+		}
+
+		if area > maxArea {
+			maxArea = area
+		}
+
+		if firstHeight < lastHeight {
+			firstPtr++
+		} else {
+			lastPtr--
 		}
 	}
-	return 0
+	return maxArea
 }
