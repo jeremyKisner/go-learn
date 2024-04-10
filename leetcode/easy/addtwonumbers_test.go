@@ -15,9 +15,15 @@ func TestAddTwoNumbers(t *testing.T) {
 	}{
 		{
 			name: "test 1",
-			num1: 1,
-			num2: 1,
-			want: 2,
+			num1: 12,
+			num2: 5,
+			want: 17,
+		},
+		{
+			name: "test 2",
+			num1: -10,
+			num2: 4,
+			want: -6,
 		},
 	}
 	for _, tt := range tests {
