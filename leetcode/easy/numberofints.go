@@ -6,13 +6,14 @@ import (
 )
 
 func NumberOfDifferentIntegers(word string) int {
-	uniqueints := make(map[string]bool)
+	uniqueints := make(map[int]bool)
 	var placeholder string
 	for _, k := range strings.Split(word, "") {
 		_, err := strconv.Atoi(k)
 		if err != nil {
 			if placeholder != "" {
-				uniqueints[placeholder] = true
+				key, _ := strconv.Atoi(placeholder)
+				uniqueints[key] = true
 				placeholder = ""
 			}
 			continue
@@ -21,7 +22,8 @@ func NumberOfDifferentIntegers(word string) int {
 		}
 	}
 	if placeholder != "" {
-		uniqueints[placeholder] = true
+		key, _ := strconv.Atoi(placeholder)
+		uniqueints[key] = true
 		placeholder = ""
 	}
 	return len(uniqueints)
