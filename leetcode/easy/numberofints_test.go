@@ -17,6 +17,11 @@ func TestNumberOfDifferentIntegers(t *testing.T) {
 			word: "a123bc34d8ef34",
 			want: 3,
 		},
+		{
+			name: "Test 2",
+			word: "leet1234code234",
+			want: 2,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
