@@ -14,13 +14,13 @@ func TestAddTwoNumbers(t *testing.T) {
 		want int
 	}{
 		{
-			name: "test 1",
+			name: "Test 1",
 			num1: 12,
 			num2: 5,
 			want: 17,
 		},
 		{
-			name: "test 2",
+			name: "Test 2",
 			num1: -10,
 			num2: 4,
 			want: -6,
