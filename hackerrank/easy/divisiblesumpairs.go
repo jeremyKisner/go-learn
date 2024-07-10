@@ -1,6 +1,6 @@
 package hackerrank
 
-func DivisisbleSumPairs(n int32, k int32, ar []int32) int32 {
+func DivisibleSumPairs(n int32, k int32, ar []int32) int32 {
 	var res int32
 	for i := 0; i < len(ar); i++ {
 		for j := i + 1; j < len(ar); j++ {

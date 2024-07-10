@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDivisisbleSumPairs(t *testing.T) {
+func TestDivisibleSumPairs(t *testing.T) {
 	tests := []struct {
 		name     string
 		n        int32
@@ -31,7 +31,7 @@ func TestDivisisbleSumPairs(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.expected, DivisisbleSumPairs(tt.n, tt.k, tt.ar))
+			assert.Equal(t, tt.expected, DivisibleSumPairs(tt.n, tt.k, tt.ar))
 		})
 	}
 }
