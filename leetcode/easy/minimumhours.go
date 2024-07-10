@@ -1,9 +1,17 @@
 package leetcode
 
 func MinNumberOfHours(initialEnergy int, initialExperience int, energy []int, experience []int) int {
+	totalEnergy, expToGain := convertExp(energy, experience, initialExperience)
+	requiredEnergy := totalEnergy - initialEnergy + 1
+	if requiredEnergy < 0 {
+		requiredEnergy = 0
+	}
+	return expToGain + requiredEnergy
+}
+
+func convertExp(energy []int, experience []int, curExp int) (int, int) {
 	var totalEnergy int
 	var expToGain int
-	curExp := initialExperience
 	for i := 0; i < len(energy); i++ {
 		totalEnergy += energy[i]
 		winningExp := experience[i] - curExp + 1
@@ -12,10 +20,5 @@ func MinNumberOfHours(initialEnergy int, initialExperience int, energy []int, ex
 		}
 		curExp += experience[i]
 	}
-	requiredEnergy := totalEnergy - initialEnergy + 1
-	if requiredEnergy < 0 {
-		requiredEnergy = 0
-	}
-
-	return expToGain + requiredEnergy
+	return totalEnergy, expToGain
 }

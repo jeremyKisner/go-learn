@@ -3,9 +3,6 @@ package leetcode
 import "testing"
 
 func TestIsPalindrome(t *testing.T) {
-	type args struct {
-		x int
-	}
 	tests := []struct {
 		name  string
 		input int
