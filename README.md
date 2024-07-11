@@ -1,5 +1,5 @@
 # go-learn
-Go by example with various coding challenges and learning paths.
+Learning Go by example with various coding challenges.
 
 # run unit tests
 ```
