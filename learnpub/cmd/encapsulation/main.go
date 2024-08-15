@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-learn/learnpub/algebra"
+	"github.com/go-learn/learnpub/mather"
 )
 
 type Message struct {
@@ -23,4 +24,14 @@ func main() {
 	if m.IsPlotted {
 		fmt.Println("should work")
 	}
+
+	athlete := mather.Athlete{
+		Speed: 5,
+		Steps: 10,
+	}
+
+	var track mather.Track = athlete
+
+	fmt.Println("Running:", track.Run())
+	fmt.Println("Walking:", track.Walk())
 }
