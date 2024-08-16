@@ -25,6 +25,6 @@ func main() {
 
 	go doWork(ctx)
 
-	time.Sleep(5 * time.Second) // Longer sleep duration
+	time.Sleep(5 * time.Second)
 	cancel()
 }
