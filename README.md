@@ -1,5 +1,5 @@
 # go-learn
-Learning Go with various coding challenges and scenarios.
+My playground for learning Go with various coding challenges and scenarios.
 
 # run unit tests
 ```
