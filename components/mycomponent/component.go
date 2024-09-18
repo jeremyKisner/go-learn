@@ -12,11 +12,11 @@ type Container struct {
 	Hash       string      `json:"hash"`
 }
 type Component struct {
-	Name          string        `json:"name"`
-	Identifcation Identifcation `json:"identification"`
+	Name           string         `json:"name"`
+	Identification Identification `json:"identification"`
 }
 
-type Identifcation struct {
+type Identification struct {
 	ID   int    `json:"id"`
 	Hash string `json:"hash"`
 }
@@ -41,7 +41,7 @@ func main() {
 	var comps []Component
 	comp := Component{
 		Name: "foobar",
-		Identifcation: Identifcation{
+		Identification: Identification{
 			ID:   1,
 			Hash: hashString("foobar" + fmt.Sprint(1)),
 		},
