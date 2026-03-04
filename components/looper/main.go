@@ -40,7 +40,7 @@ func Roll(ctx context.Context, wg *sync.WaitGroup) {
 	for {
 		select {
 		case <-ctx.Done():
-			fmt.Println(fmt.Sprintf("total tolls: %s | wins: %s - loses: %s - draws: %s",
+			fmt.Println(fmt.Printf("total rolls: %s | wins: %s - loses: %s - draws: %s",
 				strconv.Itoa(sb.totalRolls), strconv.Itoa(sb.wins), strconv.Itoa(sb.losses), strconv.Itoa(sb.draws)))
 			return
 		default:
