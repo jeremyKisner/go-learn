@@ -5,61 +5,76 @@ import (
 	"flag"
 	"fmt"
 	"math/rand"
-	"strconv"
 	"sync"
 	"time"
 )
 
-var deadlineSecs = flag.Int("deadline", 5, "deadline in seconds")
-
 func main() {
+	deadlineSecs := flag.Int("deadline", 5, "deadline in seconds")
+	numberOfDie := flag.Int("dieCount", 1, "number of dice (default 1 die)")
 	flag.Parse()
+
 	fmt.Println("deadline in seconds", *deadlineSecs)
 	deadline := time.Now().Add(time.Duration(*deadlineSecs) * time.Second)
 	ctx, cancel := context.WithDeadline(context.Background(), deadline)
 	defer cancel()
+
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go Roll(ctx, &wg)
+	boardConfig := RollScoreBoard{
+		Game:     &wg,
+		totalDie: *numberOfDie,
+	}
+	go Roll(ctx, &boardConfig)
 	wg.Wait()
-	fmt.Print("complete!")
+
+	fmt.Println("complete!")
 }
 
 type RollScoreBoard struct {
+	totalDie   int
 	totalRolls int
 	wins       int
 	losses     int
 	draws      int
 	lock       sync.Mutex
+	Game       *sync.WaitGroup
 }
 
-func Roll(ctx context.Context, wg *sync.WaitGroup) {
-	defer wg.Done()
+func Roll(ctx context.Context, sb *RollScoreBoard) {
+	defer sb.Game.Done()
 	fmt.Println("start rolling")
-	sb := RollScoreBoard{}
+	numberOfDie := sb.totalDie
 	for {
 		select {
 		case <-ctx.Done():
-			fmt.Println(fmt.Printf("total rolls: %s | wins: %s - loses: %s - draws: %s",
-				strconv.Itoa(sb.totalRolls), strconv.Itoa(sb.wins), strconv.Itoa(sb.losses), strconv.Itoa(sb.draws)))
+			fmt.Printf(fmt.Sprintf("total rolls: %d | wins: %d - loses: %d - draws: %d\n", sb.totalRolls, sb.wins, sb.losses, sb.draws))
 			return
 		default:
-			pTotal := GetDie() + GetDie()
-			compTotal := GetDie() + GetDie()
+			// roll player dice
+			pTotal := 0
+			for i := 0; i < numberOfDie; i++ {
+				pTotal += GetDie()
+			}
+			// roll computer dice
+			compTotal := 0
+			for i := 0; i < numberOfDie; i++ {
+				compTotal += GetDie()
+			}
 			msg := fmt.Sprintf("you rolled %d  -- comp rolled %d", pTotal, compTotal)
 			var res string
 			if pTotal > compTotal {
-				res = fmt.Sprintf("you win! ")
+				res = "you win"
 				Increment(&sb.lock, &sb.wins)
 			} else if pTotal == compTotal {
-				res = fmt.Sprintf("draw! ")
+				res = "draw"
 				Increment(&sb.lock, &sb.draws)
 			} else {
-				res = fmt.Sprintf("you lose! ")
+				res = "you lose"
 				Increment(&sb.lock, &sb.losses)
 			}
 			Increment(&sb.lock, &sb.totalRolls)
-			fmt.Println("round", sb.totalRolls, res, msg)
+			fmt.Println("round", sb.totalRolls, ": ", res, msg)
 			time.Sleep(2 * time.Second)
 		}
 	}
